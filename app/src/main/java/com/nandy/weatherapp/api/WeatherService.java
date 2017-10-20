@@ -33,6 +33,19 @@ public class WeatherService extends RetrofitService {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+
+    public Single<Weather> getForecast(android.location.Location location, int days) {
+
+        Map<String, String> queryMap = new HashMap<>();
+        queryMap.put(KEY, Api.KEY);
+        queryMap.put(QWERY, String.format("%f,%f", location.getLatitude(), location.getLatitude()));
+        queryMap.put(DAYS, String.valueOf(days));
+
+        return getRetrofitService().getForecast(queryMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public Single<List<Location>> search(String qwery) {
 
         Map<String, String> queryMap = new HashMap<>();
