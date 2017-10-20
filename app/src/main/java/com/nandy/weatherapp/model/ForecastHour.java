@@ -55,7 +55,7 @@ public class ForecastHour {
     @SerializedName("chance_of_snow")
     private int chanceOfSnow;
     @SerializedName("vis_km")
-    private int visibilityInKm;
+    private float visibilityInKm;
     @SerializedName("vis_miles")
     private int visibilityMiles;
 
@@ -152,7 +152,7 @@ public class ForecastHour {
         return chanceOfSnow;
     }
 
-    public int getVisibilityInKm() {
+    public float getVisibilityInKm() {
         return visibilityInKm;
     }
 

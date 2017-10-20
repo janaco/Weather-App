@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitService {
 
 
-    private static Retrofit getRetrofit() {
+    private Retrofit getRetrofit() {
 
         return new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -25,7 +25,7 @@ public class RetrofitService {
 
     }
 
-    private static Api getService() {
+    protected Api getRetrofitService() {
         return getRetrofit().create(Api.class);
     }
 

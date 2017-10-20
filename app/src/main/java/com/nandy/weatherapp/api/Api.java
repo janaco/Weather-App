@@ -1,5 +1,13 @@
 package com.nandy.weatherapp.api;
 
+import com.nandy.weatherapp.model.Weather;
+
+import java.util.Map;
+
+import io.reactivex.Single;
+import retrofit2.http.GET;
+import retrofit2.http.QueryMap;
+
 /**
  * Created by yana on 20.10.17.
  */
@@ -10,4 +18,6 @@ public interface Api {
     String KEY = "e13c74da798f4ac7821180743172010";
 
 
+    @GET("forecast.json?")
+    Single<Weather> getForecast(@QueryMap Map<String, String> params);
 }
