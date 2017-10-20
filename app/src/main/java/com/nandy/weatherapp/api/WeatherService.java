@@ -1,8 +1,10 @@
 package com.nandy.weatherapp.api;
 
+import com.nandy.weatherapp.model.Location;
 import com.nandy.weatherapp.model.Weather;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Single;
@@ -30,4 +32,17 @@ public class WeatherService extends RetrofitService {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Single<List<Location>> search(String qwery) {
+
+        Map<String, String> queryMap = new HashMap<>();
+        queryMap.put(KEY, Api.KEY);
+        queryMap.put(QWERY, qwery);
+
+        return getRetrofitService().search(queryMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
 }

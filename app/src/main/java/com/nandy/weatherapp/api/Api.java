@@ -1,7 +1,9 @@
 package com.nandy.weatherapp.api;
 
+import com.nandy.weatherapp.model.Location;
 import com.nandy.weatherapp.model.Weather;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Single;
@@ -20,4 +22,7 @@ public interface Api {
 
     @GET("forecast.json?")
     Single<Weather> getForecast(@QueryMap Map<String, String> params);
+
+    @GET("search.json?")
+    Single<List<Location>> search(@QueryMap Map<String, String> params);
 }

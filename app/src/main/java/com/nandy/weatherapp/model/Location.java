@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Location {
 
+    @SerializedName("id")
+    private int id;
     @SerializedName("name")
     private String name;
     @SerializedName("region")
