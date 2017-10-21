@@ -16,8 +16,6 @@ public class CurrentWeather {
     private int day;
     @SerializedName("condition")
     private Condition condition;
-    @SerializedName("wind_mph")
-    private float windSpeedInMiles;
     @SerializedName("wind_kph")
     private float windSpeedInKilomiters;
     @SerializedName("cloud")
@@ -43,9 +41,6 @@ public class CurrentWeather {
         return condition;
     }
 
-    public float getWindSpeedInMiles() {
-        return windSpeedInMiles;
-    }
 
     public float getWindSpeedInKilomiters() {
         return windSpeedInKilomiters;

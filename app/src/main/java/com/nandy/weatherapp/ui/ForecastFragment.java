@@ -3,6 +3,7 @@ package com.nandy.weatherapp.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -103,7 +104,10 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     @OnClick(R.id.search)
     void onSearchClick() {
 
-        getActivity().getSupportFragmentManager().beginTransaction()
+       FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
+
+        transaction
                 .add(R.id.container, new SearchFragment(), SearchFragment.class.getSimpleName())
                 .addToBackStack(SearchFragment.class.getSimpleName())
                 .commit();
