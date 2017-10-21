@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.Status;
 import com.nandy.weatherapp.ForecastsAdapter;
 import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.mvp.ForecastContract;
@@ -176,4 +177,5 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     public void setForecastsAdapter(ForecastsAdapter adapter) {
         recyclerView.setAdapter(adapter);
     }
+
 }

@@ -3,16 +3,21 @@ package com.nandy.weatherapp.mvp;
 import android.util.Log;
 
 import com.nandy.weatherapp.ForecastsAdapter;
+import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
 import com.nandy.weatherapp.eventbus.SearchResultEvent;
 import com.nandy.weatherapp.model.Condition;
 import com.nandy.weatherapp.model.CurrentWeather;
 import com.nandy.weatherapp.model.Weather;
+import com.nandy.weatherapp.mvp.model.ActivityResultEvent;
+import com.nandy.weatherapp.mvp.model.ForecastModel;
+import com.nandy.weatherapp.mvp.model.LocationModel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.SingleObserver;
+import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -25,6 +30,7 @@ public class ForecastPresenter implements ForecastContract.Presenter {
 
     private ForecastContract.View view;
     private ForecastModel forecastModel;
+    private LocationModel locationModel;
 
     private Disposable forecastSubscription;
 
@@ -36,38 +42,38 @@ public class ForecastPresenter implements ForecastContract.Presenter {
         this.forecastModel = forecastModel;
     }
 
+    public void setLocationModel(LocationModel locationModel) {
+        this.locationModel = locationModel;
+    }
+
     @Override
     public void start() {
-        getForecast("Lviv");
+        locationModel.requestLocationUpdate();
     }
 
 
-    private void getForecast(String qwery) {
-        forecastModel.getForecast(qwery, 10)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Weather>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        forecastSubscription = d;
-                    }
+    private SingleObserver<Weather> getWeatherObserver() {
+        return new SingleObserver<Weather>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                forecastSubscription = d;
+            }
 
-                    @Override
-                    public void onSuccess(Weather weather) {
-                        Log.d("WEATHER_", "success: " + weather);
-                        view.setLocationName(weather.getLocation().getName());
-                        displayCurrentWeather(weather.getCurrent());
-                        view.setForecastsAdapter(new ForecastsAdapter(weather.getForecast().getForecasts()));
-                        ;
-                    }
+            @Override
+            public void onSuccess(Weather weather) {
+                Log.d("WEATHER_", "success: " + weather);
+                view.setLocationName(weather.getLocation().getName());
+                displayCurrentWeather(weather.getCurrent());
+                view.setForecastsAdapter(new ForecastsAdapter(weather.getForecast().getForecasts()));
+                ;
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
 
-                        e.printStackTrace();
-                    }
-                });
-
+                e.printStackTrace();
+            }
+        };
     }
 
     @Override
@@ -77,6 +83,7 @@ public class ForecastPresenter implements ForecastContract.Presenter {
             forecastSubscription.dispose();
         }
     }
+
 
     @Override
     public void startEventListening() {
@@ -90,7 +97,24 @@ public class ForecastPresenter implements ForecastContract.Presenter {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSearchResultEvent(SearchResultEvent event) {
-        getForecast(event.getQwery());
+        forecastModel.getForecast(event.getQwery())
+                .subscribe(getWeatherObserver());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLocationEvent(CurrentLocationEvent event) {
+        if (event.isSuccess()) {
+            forecastModel.getForecast(event.getLocation())
+                    .subscribe(getWeatherObserver());
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onActivityResultEvent(ActivityResultEvent event) {
+        if (event.getRequestCode() == LocationModel.REQUEST_CHECK_SETTINGS) {
+            locationModel.onActivityResult(event.getResultCode());
+        }
     }
 
     private void displayCurrentWeather(CurrentWeather weather) {
@@ -100,7 +124,7 @@ public class ForecastPresenter implements ForecastContract.Presenter {
         view.setConditionIcon(condition.getIcon());
 
         view.setFeelsLikeTemperature(weather.getFeelsLikeCelsius());
-        view.setCurrentTemperature(weather.getTemperatureCelsius());
+        view.setCurrentTemperature((int) weather.getTemperatureCelsius());
         view.setWindSpeed(weather.getWindSpeedInKilomiters());
 
     }

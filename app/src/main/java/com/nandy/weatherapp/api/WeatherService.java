@@ -42,7 +42,7 @@ public class WeatherService extends RetrofitService {
 
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put(KEY, Api.KEY);
-        queryMap.put(QWERY, String.format("%f,%f", location.getLatitude(), location.getLatitude()));
+        queryMap.put(QWERY, String.format("%f,%f", location.getLatitude(), location.getLongitude()));
         queryMap.put(DAYS, String.valueOf(days));
 
         return getRetrofitService().getForecast(queryMap);

@@ -1,5 +1,6 @@
 package com.nandy.weatherapp.mvp;
 
+import com.google.android.gms.common.api.Status;
 import com.nandy.weatherapp.ForecastsAdapter;
 
 /**
@@ -35,6 +36,7 @@ public class ForecastContract {
         void setCondition(String condition);
 
         void setForecastsAdapter(ForecastsAdapter adapter);
+
     }
 
     public interface Presenter{

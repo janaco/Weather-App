@@ -11,7 +11,7 @@ public class CurrentWeather {
     @SerializedName("last_updated_epoch")
     private long lastUpdatedTime;
     @SerializedName("temp_c")
-    private int temperatureCelsius;
+    private float temperatureCelsius;
     @SerializedName("is_day")
     private int day;
     @SerializedName("condition")
@@ -31,7 +31,7 @@ public class CurrentWeather {
         return lastUpdatedTime;
     }
 
-    public int getTemperatureCelsius() {
+    public float getTemperatureCelsius() {
         return temperatureCelsius;
     }
 
