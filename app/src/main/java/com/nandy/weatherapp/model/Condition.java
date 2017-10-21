@@ -11,7 +11,7 @@ public class Condition {
     @SerializedName("text")
     private String text;
     @SerializedName("icon")
-    private String icon;
+    private String iconUrl;
     @SerializedName("code")
     private int code;
 
@@ -19,8 +19,8 @@ public class Condition {
         return text;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getIconUrl() {
+        return "https:".concat(iconUrl);
     }
 
     public int getCode() {

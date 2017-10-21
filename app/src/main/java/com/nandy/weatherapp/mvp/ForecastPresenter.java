@@ -17,10 +17,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.SingleObserver;
-import io.reactivex.SingleOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yana on 21.10.17.
@@ -121,7 +118,7 @@ public class ForecastPresenter implements ForecastContract.Presenter {
 
         Condition condition = weather.getCondition();
         view.setCondition(condition.getText());
-        view.setConditionIcon(condition.getIcon());
+        view.setConditionIcon(condition.getIconUrl());
 
         view.setFeelsLikeTemperature(weather.getFeelsLikeCelsius());
         view.setCurrentTemperature((int) weather.getTemperatureCelsius());

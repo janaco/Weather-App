@@ -15,6 +15,7 @@ import com.google.android.gms.common.api.Status;
 import com.nandy.weatherapp.ForecastsAdapter;
 import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.mvp.ForecastContract;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -140,7 +141,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
 
     @Override
     public void setConditionIcon(String iconUrl) {
-
+        Picasso.with(getContext()).load(iconUrl).into(conditionIcon);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.nandy.weatherapp;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import com.nandy.weatherapp.model.Day;
 import com.nandy.weatherapp.model.ForecastDay;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,7 +44,7 @@ public class ForecastsAdapter extends RecyclerView.Adapter<ForecastsAdapter.View
         holder.setDay(date);
         holder.setDate(date);
 
-        holder.setConditionIcon(day.getCondition().getIcon());
+        holder.setConditionIcon(day.getCondition().getIconUrl());
         holder.setMinTemperature((int) day.getMintempCelciun(), (int) day.getMaxtempCelciun());
 
     }
@@ -89,7 +89,9 @@ public class ForecastsAdapter extends RecyclerView.Adapter<ForecastsAdapter.View
            chanceOfRainText.setText(String.format("%d%", percentage));
         }
 
-        void setConditionIcon(String url){}
+        void setConditionIcon(String url){
+            Picasso.with(conditionIcon.getContext()).load(url).into(conditionIcon);
+        }
 
     }
 }
