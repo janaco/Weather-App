@@ -3,35 +3,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/blue_grey_300"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingEnd="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingStart="20dp"
+    android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/day"
+        style="@style/MainTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
         tools:text="Sat" />
 
     <TextView
         android:id="@+id/date"
+        android:alpha="0.7"
+        style="@style/MainTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="14sp"
         tools:text="21.10" />
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/weather_cloudy" />
 
-        <TextView
-            android:id="@+id/temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="8C" />
+    <TextView
+        android:id="@+id/temp"
+        style="@style/MainTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        tools:text="8C" />
 
     <TextView
         android:id="@+id/chance_of_rain"
+        style="@style/MainTextStyle"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:alpha="0.7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="68%" />
