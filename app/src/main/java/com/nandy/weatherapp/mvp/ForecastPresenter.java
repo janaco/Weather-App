@@ -2,7 +2,7 @@ package com.nandy.weatherapp.mvp;
 
 import android.util.Log;
 
-import com.nandy.weatherapp.ForecastsAdapter;
+import com.nandy.weatherapp.adapter.ForecastsAdapter;
 import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
 import com.nandy.weatherapp.eventbus.SearchResultEvent;
 import com.nandy.weatherapp.model.Condition;
@@ -54,15 +54,15 @@ public class ForecastPresenter implements ForecastContract.Presenter {
             @Override
             public void onSubscribe(Disposable d) {
                 forecastSubscription = d;
+                view.showProgress();
             }
 
             @Override
             public void onSuccess(Weather weather) {
-                Log.d("WEATHER_", "success: " + weather);
                 view.setLocationName(weather.getLocation().getName());
                 displayCurrentWeather(weather.getCurrent());
                 view.setForecastsAdapter(new ForecastsAdapter(weather.getForecast().getForecasts()));
-                ;
+                view.showContent();
             }
 
             @Override

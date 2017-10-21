@@ -1,4 +1,4 @@
-package com.nandy.weatherapp;
+package com.nandy.weatherapp.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.model.Day;
 import com.nandy.weatherapp.model.ForecastDay;
 import com.squareup.picasso.Picasso;

@@ -1,4 +1,4 @@
-package com.nandy.weatherapp.ui;
+package com.nandy.weatherapp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,13 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.Status;
-import com.nandy.weatherapp.ForecastsAdapter;
+import com.nandy.weatherapp.adapter.ForecastsAdapter;
 import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.mvp.ForecastContract;
 import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,6 +56,12 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     TextView sunsetTimeText;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.progress)
+    View progressLayout;
+    @BindView(R.id.content)
+    View contentLayout;
+    @BindView(R.id.progress_text)
+    TextView progressText;
 
     private ForecastContract.Presenter presenter;
 
@@ -185,4 +188,20 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void showProgress() {
+        contentLayout.setVisibility(View.GONE);
+        progressLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showContent() {
+        progressLayout.setVisibility(View.GONE);
+        contentLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setProgressText(int resId) {
+        progressText.setText(resId);
+    }
 }

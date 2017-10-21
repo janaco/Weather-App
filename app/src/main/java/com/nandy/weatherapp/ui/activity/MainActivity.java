@@ -1,16 +1,17 @@
-package com.nandy.weatherapp;
+package com.nandy.weatherapp.ui.activity;
 
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
 import com.nandy.weatherapp.mvp.ForecastPresenter;
 import com.nandy.weatherapp.mvp.model.ActivityResultEvent;
 import com.nandy.weatherapp.mvp.model.ForecastModel;
 import com.nandy.weatherapp.mvp.model.LocationModel;
-import com.nandy.weatherapp.ui.ForecastFragment;
+import com.nandy.weatherapp.ui.fragment.ForecastFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

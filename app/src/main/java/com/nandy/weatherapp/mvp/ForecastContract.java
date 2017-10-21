@@ -1,7 +1,8 @@
 package com.nandy.weatherapp.mvp;
 
-import com.google.android.gms.common.api.Status;
-import com.nandy.weatherapp.ForecastsAdapter;
+import android.support.annotation.StringRes;
+
+import com.nandy.weatherapp.adapter.ForecastsAdapter;
 
 /**
  * Created by yana on 21.10.17.
@@ -37,6 +38,11 @@ public class ForecastContract {
 
         void setForecastsAdapter(ForecastsAdapter adapter);
 
+        void showProgress();
+
+        void showContent();
+
+        void setProgressText(@StringRes int resId);
     }
 
     public interface Presenter{

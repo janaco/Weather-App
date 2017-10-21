@@ -1,4 +1,4 @@
-package com.nandy.weatherapp.ui;
+package com.nandy.weatherapp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.nandy.weatherapp.OnListItemClickListener;
 import com.nandy.weatherapp.R;
-import com.nandy.weatherapp.SearchResultsAdapter;
+import com.nandy.weatherapp.adapter.SearchResultsAdapter;
 import com.nandy.weatherapp.api.WeatherService;
 import com.nandy.weatherapp.eventbus.SearchResultEvent;
 import com.nandy.weatherapp.model.Location;
