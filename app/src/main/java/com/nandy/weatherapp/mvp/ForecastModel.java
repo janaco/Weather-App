@@ -1,4 +1,4 @@
-package com.nandy.weatherapp;
+package com.nandy.weatherapp.mvp;
 
 import com.nandy.weatherapp.api.WeatherService;
 import com.nandy.weatherapp.model.Weather;

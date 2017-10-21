@@ -6,6 +6,7 @@ import com.nandy.weatherapp.model.Weather;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
@@ -24,5 +25,5 @@ public interface Api {
     Single<Weather> getForecast(@QueryMap Map<String, String> params);
 
     @GET("search.json?")
-    Single<List<Location>> search(@QueryMap Map<String, String> params);
+    Observable<List<Location>> search(@QueryMap Map<String, String> params);
 }

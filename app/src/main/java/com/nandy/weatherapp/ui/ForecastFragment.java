@@ -1,4 +1,4 @@
-package com.nandy.weatherapp;
+package com.nandy.weatherapp.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nandy.weatherapp.ForecastsAdapter;
+import com.nandy.weatherapp.R;
+import com.nandy.weatherapp.mvp.ForecastContract;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,7 +29,7 @@ import butterknife.OnClick;
  * Created by yana on 21.10.17.
  */
 
-public class ForecastFragment extends Fragment implements ForecastContract.View{
+public class ForecastFragment extends Fragment implements ForecastContract.View {
 
     @BindView(R.id.name)
     TextView nameText;
@@ -64,6 +70,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View{
         ButterKnife.bind(this, view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         presenter.start();
+
     }
 
     @Override
@@ -73,17 +80,33 @@ public class ForecastFragment extends Fragment implements ForecastContract.View{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        presenter.startEventListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.stopEventListening();
+    }
+
+    @Override
     public void setPresenter(ForecastContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
     @OnClick(R.id.search)
-    void onSearchClick(){
+    void onSearchClick() {
 
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, new SearchFragment(), SearchFragment.class.getSimpleName())
+                .addToBackStack(SearchFragment.class.getSimpleName())
+                .commit();
     }
 
     @OnClick(R.id.gps)
-    void onGpsClick(){
+    void onGpsClick() {
 
     }
 
@@ -134,7 +157,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View{
     @Override
     public void setWindSpeed(float windSpeed) {
 //        currentTemperatureText.setText(String.format("%f %s",windSpeed, getString(R.string.km_per_hour)));
-        windSpeedText.setText(windSpeed + " " +  getString(R.string.km_per_hour));
+        windSpeedText.setText(windSpeed + " " + getString(R.string.km_per_hour));
 
     }
 

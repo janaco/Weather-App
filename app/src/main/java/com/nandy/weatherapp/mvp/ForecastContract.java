@@ -1,4 +1,6 @@
-package com.nandy.weatherapp;
+package com.nandy.weatherapp.mvp;
+
+import com.nandy.weatherapp.ForecastsAdapter;
 
 /**
  * Created by yana on 21.10.17.
@@ -40,6 +42,10 @@ public class ForecastContract {
         void start();
 
         void destroy();
+
+        void startEventListening();
+
+        void stopEventListening();
 
     }
 }

@@ -1,10 +1,16 @@
-package com.nandy.weatherapp;
+package com.nandy.weatherapp.mvp;
 
 import android.util.Log;
 
+import com.nandy.weatherapp.ForecastsAdapter;
+import com.nandy.weatherapp.eventbus.SearchResultEvent;
 import com.nandy.weatherapp.model.Condition;
 import com.nandy.weatherapp.model.CurrentWeather;
 import com.nandy.weatherapp.model.Weather;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -22,7 +28,7 @@ public class ForecastPresenter implements ForecastContract.Presenter {
 
     private Disposable forecastSubscription;
 
-    public ForecastPresenter(ForecastContract.View view){
+    public ForecastPresenter(ForecastContract.View view) {
         this.view = view;
     }
 
@@ -32,13 +38,18 @@ public class ForecastPresenter implements ForecastContract.Presenter {
 
     @Override
     public void start() {
-        forecastModel.getForecast("Lviv", 10)
+        getForecast("Lviv");
+    }
+
+
+    private void getForecast(String qwery) {
+        forecastModel.getForecast(qwery, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Weather>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        forecastSubscription  = d;
+                        forecastSubscription = d;
                     }
 
                     @Override
@@ -47,13 +58,13 @@ public class ForecastPresenter implements ForecastContract.Presenter {
                         view.setLocationName(weather.getLocation().getName());
                         displayCurrentWeather(weather.getCurrent());
                         view.setForecastsAdapter(new ForecastsAdapter(weather.getForecast().getForecasts()));
-;
+                        ;
                     }
 
                     @Override
                     public void onError(Throwable e) {
 
-                        Log.d("WEATHER_", "error: " + e);
+                        e.printStackTrace();
                     }
                 });
 
@@ -61,12 +72,28 @@ public class ForecastPresenter implements ForecastContract.Presenter {
 
     @Override
     public void destroy() {
-        if (forecastSubscription != null && !forecastSubscription.isDisposed()){
+
+        if (forecastSubscription != null && !forecastSubscription.isDisposed()) {
             forecastSubscription.dispose();
         }
     }
 
-    private void displayCurrentWeather(CurrentWeather weather){
+    @Override
+    public void startEventListening() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void stopEventListening() {
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchResultEvent(SearchResultEvent event) {
+        getForecast(event.getQwery());
+    }
+
+    private void displayCurrentWeather(CurrentWeather weather) {
 
         Condition condition = weather.getCondition();
         view.setCondition(condition.getText());
