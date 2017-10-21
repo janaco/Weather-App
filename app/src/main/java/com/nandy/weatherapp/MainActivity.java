@@ -20,7 +20,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.OnConnectionFailedListener {
 
 
     private final static int REQUEST_CHECK_SETTINGS = 2000;
@@ -41,24 +41,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
 
-//        new WeatherService().search("Lviv")
-//                .subscribe(new SingleObserver<List<Location>>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                        Log.d("WEATHER_", "onSubscribe");
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(List<Location> locations) {
-//                        Log.d("WEATHER_", "onSuccess: " + locations.size());
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("WEATHER_", "onError: " + e);
-//
-//                    }
-//                });
+        ForecastFragment fragment = new ForecastFragment();
+        ForecastPresenter presenter = new ForecastPresenter(fragment);
+        presenter.setForecastModel(new ForecastModel());
+        fragment.setPresenter(presenter);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment, ForecastFragment.class.getSimpleName())
+                .addToBackStack(ForecastFragment.class.getSimpleName())
+                .commit();
     }
 
     private void getLocation() {
@@ -73,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
     }
-
 
 
     protected synchronized void buildGoogleApiClient() {
@@ -120,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private boolean checkPlayServices() {
 
 
-        return  GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS;
+        return GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS;
     }
 
 

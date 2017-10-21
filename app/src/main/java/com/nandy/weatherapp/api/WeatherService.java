@@ -28,9 +28,7 @@ public class WeatherService extends RetrofitService {
         queryMap.put(QWERY, qwery);
         queryMap.put(DAYS, String.valueOf(days));
 
-        return getRetrofitService().getForecast(queryMap)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return getRetrofitService().getForecast(queryMap);
     }
 
 
@@ -41,9 +39,7 @@ public class WeatherService extends RetrofitService {
         queryMap.put(QWERY, String.format("%f,%f", location.getLatitude(), location.getLatitude()));
         queryMap.put(DAYS, String.valueOf(days));
 
-        return getRetrofitService().getForecast(queryMap)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return getRetrofitService().getForecast(queryMap);
     }
 
     public Single<List<Location>> search(String qwery) {
@@ -52,9 +48,7 @@ public class WeatherService extends RetrofitService {
         queryMap.put(KEY, Api.KEY);
         queryMap.put(QWERY, qwery);
 
-        return getRetrofitService().search(queryMap)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return getRetrofitService().search(queryMap);
     }
 
 
