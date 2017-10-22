@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -292,19 +292,19 @@
                             android:padding="5dp">
 
                             <ImageView
-                                android:id="@+id/sunset"
+                                android:id="@+id/clouds_cover"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_centerVertical="true"
-                                android:src="@drawable/weather_sunset" />
+                                android:src="@drawable/weather_cloudy" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginStart="10dp"
-                                android:layout_toEndOf="@+id/sunset"
-                                android:layout_toRightOf="@+id/sunset"
+                                android:layout_toEndOf="@+id/clouds_cover"
+                                android:layout_toRightOf="@+id/clouds_cover"
                                 android:orientation="vertical"
                                 android:padding="5dp">
 
@@ -313,17 +313,17 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:alpha="0.7"
-                                    android:text="@string/sunset"
+                                    android:text="@string/clouds_cover"
                                     android:textSize="14sp" />
 
                                 <TextView
-                                    android:id="@+id/sunset_time"
+                                    android:id="@+id/clouds"
                                     style="@style/MainTextStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="14sp"
                                     android:textStyle="bold"
-                                    tools:text="18:21" />
+                                    tools:text="18%" />
                             </LinearLayout>
 
                         </RelativeLayout>

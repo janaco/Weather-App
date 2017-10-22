@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +58,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     TextView visibilityText;
     @BindView(R.id.wind_speed)
     TextView windSpeedText;
-    @BindView(R.id.sunset_time)
-    TextView sunsetTimeText;
+    @BindView(R.id.clouds)
+    TextView cloudsText;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.progress)
@@ -137,8 +138,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     }
 
     @Override
-    public void setCurrentDate(long timestamp) {
-        dateText.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(new Date(timestamp)));
+    public void setCurrentDate(Date date) {
+        dateText.setText(new SimpleDateFormat("EEE, MMM d", Locale.ENGLISH).format(date));
     }
 
     @Override
@@ -165,25 +166,23 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
 
     @Override
     public void setFeelsLikeTemperature(float temperature) {
-//        currentTemperatureText.setText(String.format("%f\u2103", temperature));
         feelsLikeText.setText(temperature + "\u2103");
     }
 
     @Override
     public void setVisibility(int visibility) {
-        currentTemperatureText.setText(String.format("%d %s", visibility, getString(R.string.km)));
+        visibilityText.setText(String.format("%d %s", visibility, getString(R.string.km)));
     }
 
     @Override
     public void setWindSpeed(float windSpeed) {
-//        currentTemperatureText.setText(String.format("%f %s",windSpeed, getString(R.string.km_per_hour)));
         windSpeedText.setText(windSpeed + " " + getString(R.string.km_per_hour));
 
     }
 
     @Override
-    public void setSunsetTime(long timestamp) {
-        dateText.setText(new SimpleDateFormat("HH:mm", Locale.ENGLISH).format(new Date(timestamp)));
+    public void setCloudsCover(int persentage) {
+        cloudsText.setText(String.format("%d%s", persentage, "%"));
 
     }
 

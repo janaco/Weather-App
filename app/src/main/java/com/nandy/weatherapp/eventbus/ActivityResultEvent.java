@@ -1,4 +1,4 @@
-package com.nandy.weatherapp.mvp.model;
+package com.nandy.weatherapp.eventbus;
 
 /**
  * Created by yana on 21.10.17.

@@ -6,6 +6,8 @@ import android.support.annotation.StringRes;
 
 import com.nandy.weatherapp.adapter.ForecastsAdapter;
 
+import java.util.Date;
+
 /**
  * Created by yana on 21.10.17.
  */
@@ -18,7 +20,7 @@ public class ForecastContract {
 
         void setLocationName(String name);
 
-        void setCurrentDate(long timestamp);
+        void setCurrentDate(Date date);
 
         void setCurrentTemperature(int temperature);
 
@@ -34,7 +36,7 @@ public class ForecastContract {
 
         void setWindSpeed(float windSpeed);
 
-        void setSunsetTime(long timestamp);
+        void setCloudsCover(int persentage);
 
         void setCondition(String condition);
 

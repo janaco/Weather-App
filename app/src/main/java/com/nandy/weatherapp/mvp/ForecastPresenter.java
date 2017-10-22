@@ -1,19 +1,20 @@
 package com.nandy.weatherapp.mvp;
 
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.adapter.ForecastsAdapter;
 import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
 import com.nandy.weatherapp.eventbus.NetworkConnectionEvent;
-import com.nandy.weatherapp.eventbus.PermissionRequestEvent;
 import com.nandy.weatherapp.eventbus.PermissionResultEvent;
 import com.nandy.weatherapp.eventbus.SearchResultEvent;
 import com.nandy.weatherapp.model.Condition;
 import com.nandy.weatherapp.model.CurrentWeather;
+import com.nandy.weatherapp.model.Day;
+import com.nandy.weatherapp.model.Forecast;
+import com.nandy.weatherapp.model.ForecastDay;
 import com.nandy.weatherapp.model.Weather;
-import com.nandy.weatherapp.mvp.model.ActivityResultEvent;
+import com.nandy.weatherapp.eventbus.ActivityResultEvent;
 import com.nandy.weatherapp.mvp.model.ForecastModel;
 import com.nandy.weatherapp.mvp.model.LocationModel;
 
@@ -23,6 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.UnknownHostException;
+import java.util.List;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -68,8 +70,24 @@ public class ForecastPresenter implements ForecastContract.Presenter {
             @Override
             public void onSuccess(Weather weather) {
                 view.setLocationName(weather.getLocation().getName());
-                displayCurrentWeather(weather.getCurrent());
-                view.setForecastsAdapter(new ForecastsAdapter(weather.getForecast().getForecasts()));
+
+                CurrentWeather currentWeather = weather.getCurrent();
+                Condition condition = currentWeather.getCondition();
+                view.setCondition(condition.getText());
+                view.setConditionIcon(condition.getIconUrl());
+                view.setFeelsLikeTemperature(currentWeather.getFeelsLikeCelsius());
+                view.setCurrentTemperature((int) currentWeather.getTemperatureCelsius());
+                view.setWindSpeed(currentWeather.getWindSpeedInKilomiters());
+                view.setVisibility((int) currentWeather.getVisKm());
+                view.setCloudsCover(currentWeather.getCloud());
+
+                List<ForecastDay> forecasts = weather.getForecast().getForecasts();
+                ForecastDay forecast = forecasts.get(0);
+                Day day = forecast.getDay();
+                view.setCurrentDate(forecast.getDate());
+                view.setMaxTemperature((int) day.getMaxtempCelciun());
+                view.setMinTemperature((int) day.getMintempCelciun());
+                view.setForecastsAdapter(new ForecastsAdapter(forecasts));
                 view.showContent();
             }
 
@@ -159,16 +177,4 @@ public class ForecastPresenter implements ForecastContract.Presenter {
         }
     }
 
-    private void displayCurrentWeather(CurrentWeather weather) {
-
-        Condition condition = weather.getCondition();
-        view.setCondition(condition.getText());
-        view.setConditionIcon(condition.getIconUrl());
-
-        view.setFeelsLikeTemperature(weather.getFeelsLikeCelsius());
-        view.setCurrentTemperature((int) weather.getTemperatureCelsius());
-        view.setWindSpeed(weather.getWindSpeedInKilomiters());
-        view.setVisibility((int) weather.getVisKm());
-
-    }
 }

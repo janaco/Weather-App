@@ -13,5 +13,6 @@
     <string name="enable">Enable</string>
     <string name="cancel">Cancel</string>
     <string name="visibility">Visibility</string>
+    <string name="clouds_cover">Clouds cover</string>
 
 </resources>
