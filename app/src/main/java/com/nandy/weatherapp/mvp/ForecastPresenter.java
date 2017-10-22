@@ -1,14 +1,14 @@
 package com.nandy.weatherapp.mvp;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.adapter.ForecastsAdapter;
 import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
 import com.nandy.weatherapp.eventbus.NetworkConnectionEvent;
+import com.nandy.weatherapp.eventbus.PermissionRequestEvent;
+import com.nandy.weatherapp.eventbus.PermissionResultEvent;
 import com.nandy.weatherapp.eventbus.SearchResultEvent;
 import com.nandy.weatherapp.model.Condition;
 import com.nandy.weatherapp.model.CurrentWeather;
@@ -16,7 +16,6 @@ import com.nandy.weatherapp.model.Weather;
 import com.nandy.weatherapp.mvp.model.ActivityResultEvent;
 import com.nandy.weatherapp.mvp.model.ForecastModel;
 import com.nandy.weatherapp.mvp.model.LocationModel;
-import com.nandy.weatherapp.util.ConnectionUtils;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.greenrobot.eventbus.EventBus;
@@ -142,9 +141,21 @@ public class ForecastPresenter implements ForecastContract.Presenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNetworkStateChanged(NetworkConnectionEvent event){
-        if (event.isNetworkEmabled()){
+    public void onNetworkStateChanged(NetworkConnectionEvent event) {
+        if (event.isNetworkEmabled()) {
             requestCurrentForecast();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPermissionResultEvent(PermissionResultEvent event) {
+
+        if (event.getRequestCode() == LocationModel.REQUEST_LOCATION_PERMISSIONS && event.getGrantResults() != null) {
+            int[] grantResults = event.getGrantResults();
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                requestCurrentForecast();
+            }
         }
     }
 

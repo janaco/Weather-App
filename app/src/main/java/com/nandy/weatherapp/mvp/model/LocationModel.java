@@ -1,10 +1,13 @@
 package com.nandy.weatherapp.mvp.model;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -18,6 +21,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
+import com.nandy.weatherapp.eventbus.PermissionRequestEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,10 +34,13 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
 
 
     public final static int REQUEST_CHECK_SETTINGS = 2000;
+    public final static int REQUEST_LOCATION_PERMISSIONS = 2001;
 
     private GoogleApiClient googleApiClient;
+    private Context context;
 
     public LocationModel(Activity activity) {
+        this.context = activity;
         if (checkPlayServices(activity)) {
             buildGoogleApiClient(activity);
         }
@@ -42,14 +49,13 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
     private void getLocation() {
 
 
-        try {
-            Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            Log.i("LOCATION_", "lastKnownLocation: " + lastKnownLocation);
-
-            EventBus.getDefault().post(new CurrentLocationEvent(lastKnownLocation));
-        } catch (SecurityException e) {
-            e.printStackTrace();
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            EventBus.getDefault().post(new PermissionRequestEvent(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSIONS));
+            return;
         }
+        Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        EventBus.getDefault().post(new CurrentLocationEvent(lastKnownLocation));
 
 
     }
@@ -66,6 +72,7 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
     }
 
     public void requestLocationUpdate() {
+
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(5000);
@@ -84,6 +91,7 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
     }
 
     public void onActivityResult(int resultCode) {
+
         switch (resultCode) {
             case Activity.RESULT_OK:
                 requestLocationUpdate();
@@ -99,8 +107,6 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
 
     @Override
     public void onConnected(Bundle arg0) {
-        Log.i("LOCATION_", "onConnected");
-
         getLocation();
     }
 
@@ -116,8 +122,6 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
     public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
         final Status status = locationSettingsResult.getStatus();
 
-        Log.i("LOCATION_", "onResult: " + status);
-
         switch (status.getStatusCode()) {
             case LocationSettingsStatusCodes.SUCCESS:
                 getLocation();
@@ -127,4 +131,5 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
                 break;
         }
     }
+
 }

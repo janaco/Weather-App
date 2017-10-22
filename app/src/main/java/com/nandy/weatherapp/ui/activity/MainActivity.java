@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
 import com.nandy.weatherapp.eventbus.NetworkConnectionEvent;
+import com.nandy.weatherapp.eventbus.PermissionRequestEvent;
+import com.nandy.weatherapp.eventbus.PermissionResultEvent;
 import com.nandy.weatherapp.mvp.ForecastPresenter;
 import com.nandy.weatherapp.mvp.model.ActivityResultEvent;
 import com.nandy.weatherapp.mvp.model.ForecastModel;
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("LOCATION_", "onActivityResult");
         EventBus.getDefault().post(new ActivityResultEvent(requestCode, resultCode));
     }
 
@@ -61,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EventBus.getDefault().post(new PermissionResultEvent(requestCode, permissions, grantResults));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -90,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, filter);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPermissionRequestEvent(PermissionRequestEvent event){
+        ActivityCompat.requestPermissions(this, event.getPermissions(), event.getRequestCode());
     }
 
 
