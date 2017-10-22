@@ -8,11 +8,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by yana on 20.10.17.
+ * Created by yana on 22.10.17.
  */
 
-public class RetrofitService {
-
+public abstract class RestService {
 
     private Retrofit getRetrofit() {
 
@@ -28,5 +27,4 @@ public class RetrofitService {
     protected Api getRetrofitService() {
         return getRetrofit().create(Api.class);
     }
-
 }

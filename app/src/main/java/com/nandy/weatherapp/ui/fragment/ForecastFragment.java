@@ -1,17 +1,12 @@
 package com.nandy.weatherapp.ui.fragment;
 
-import android.content.BroadcastReceiver;
-import android.content.DialogInterface;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.nandy.weatherapp.adapter.ForecastsAdapter;
 import com.nandy.weatherapp.R;
+import com.nandy.weatherapp.adapter.ForecastsAdapter;
 import com.nandy.weatherapp.mvp.ForecastContract;
 import com.squareup.picasso.Picasso;
 
@@ -72,7 +67,6 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     ProgressBar progressBar;
     @BindView(R.id.toolbar)
     View toolbarLayout;
-
 
     private ForecastContract.Presenter presenter;
 
@@ -166,7 +160,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
 
     @Override
     public void setFeelsLikeTemperature(float temperature) {
-        feelsLikeText.setText(temperature + "\u2103");
+        feelsLikeText.setText(String.valueOf(temperature).concat("\u2103"));
     }
 
     @Override
@@ -176,14 +170,13 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
 
     @Override
     public void setWindSpeed(float windSpeed) {
-        windSpeedText.setText(windSpeed + " " + getString(R.string.km_per_hour));
+        windSpeedText.setText(String.valueOf(windSpeed).concat(" ").concat(getString(R.string.km_per_hour)));
 
     }
 
     @Override
     public void setCloudsCover(int persentage) {
         cloudsText.setText(String.format("%d%s", persentage, "%"));
-
     }
 
     @Override
@@ -199,6 +192,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     @Override
     public void showProgress() {
         contentLayout.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        progressText.setText("");
         progressLayout.setVisibility(View.VISIBLE);
     }
 

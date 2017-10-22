@@ -6,13 +6,13 @@ package com.nandy.weatherapp.eventbus;
 
 public class NetworkConnectionEvent {
 
-    private boolean networkEmabled;
+    private boolean networkEnabled;
 
-    public NetworkConnectionEvent(boolean networkEmabled) {
-        this.networkEmabled = networkEmabled;
+    public NetworkConnectionEvent(boolean networkEnabled) {
+        this.networkEnabled = networkEnabled;
     }
 
-    public boolean isNetworkEmabled() {
-        return networkEmabled;
+    public boolean isNetworkEnabled() {
+        return networkEnabled;
     }
 }

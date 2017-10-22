@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNetworkConnectionEvent(NetworkConnectionEvent event){
-        if (!event.isNetworkEmabled()){
+        if (!event.isNetworkEnabled()){
             IntentFilter filter = new IntentFilter();
             filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 

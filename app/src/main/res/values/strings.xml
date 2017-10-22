@@ -2,17 +2,15 @@
     <string name="app_name">Weather App</string>
 
     <string name="feels_like">Feels like</string>
-    <string name="change_of_rain">Chance of rain</string>
-    <string name="sunset">Sunset</string>
     <string name="wind">Wind</string>
     <string name="km_per_hour">km/hour</string>
     <string name="km">km</string>
     <string name="search">Search</string>
     <string name="failed_to_determine_location">Failed to determine location. \nPlease, use manual search.</string>
     <string name="failed_to_connect">Failed to connect.\nPlease, check your network connection.</string>
-    <string name="enable">Enable</string>
-    <string name="cancel">Cancel</string>
     <string name="visibility">Visibility</string>
     <string name="clouds_cover">Clouds cover</string>
+    <string name="fetching_location">Fetching current location…</string>
+    <string name="loading_forecast">Loading weather forecast…</string>
 
 </resources>

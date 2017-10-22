@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/search_btn"
             android:padding="15dp"
             android:src="@drawable/search" />
 
@@ -28,321 +29,324 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/location_btn"
             android:padding="15dp"
             android:src="@drawable/gps" />
 
     </LinearLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/content"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:visibility="gone">
+        android:layout_below="@id/toolbar"
+        android:layout_centerInParent="true">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/MainTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/location_marker"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/location_marker"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                tools:text="Ivano-Frankivsk" />
+
+            <TextView
+                android:id="@+id/date"
+                style="@style/MainTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Sat, October 21" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/condition_icon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/condition_icon"
+                    android:src="@drawable/weather_cloudy" />
+
+                <TextView
+                    android:id="@+id/current_temp"
+                    style="@style/MainTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:layout_toEndOf="@+id/condition_icon"
+                    android:layout_toRightOf="@+id/condition_icon"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    tools:text="9 C" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/current_temp"
+                    android:layout_toRightOf="@+id/current_temp"
+                    android:gravity="end"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/max_temp"
+                        style="@style/MainTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:gravity="end"
+                        tools:text="19 C" />
+
+                    <TextView
+                        android:id="@+id/min_temp"
+                        style="@style/MainTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.7"
+                        android:gravity="end"
+                        tools:text="8 C" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/condition"
+                style="@style/MainTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                tools:text="Dense fog" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/name"
-                    style="@style/MainTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/location_marker"
-                    android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/location_marker"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
-                    tools:text="Ivano-Frankivsk" />
-
-                <TextView
-                    android:id="@+id/date"
-                    style="@style/MainTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Sat, October 21" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="10dp">
-
-                    <ImageView
-                        android:id="@+id/condition_icon"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/weather_cloudy" />
-
-                    <TextView
-                        android:id="@+id/current_temp"
-                        style="@style/MainTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="10dp"
-                        android:layout_toEndOf="@+id/condition_icon"
-                        android:layout_toRightOf="@+id/condition_icon"
-                        android:textSize="36sp"
-                        android:textStyle="bold"
-                        tools:text="9 C" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/current_temp"
-                        android:layout_toRightOf="@+id/current_temp"
-                        android:gravity="end"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/max_temp"
-                            style="@style/MainTextStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.7"
-                            android:gravity="end"
-                            tools:text="19 C" />
-
-                        <TextView
-                            android:id="@+id/min_temp"
-                            style="@style/MainTextStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.7"
-                            android:gravity="end"
-                            tools:text="8 C" />
-                    </LinearLayout>
-
-
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/condition"
-                    style="@style/MainTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    tools:text="Dense fog" />
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_weight="0.5"
+                        android:padding="5dp">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
+                        <ImageView
+                            android:id="@+id/thermometer"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/thermometer_icon"
+                            android:src="@drawable/thermometer" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:padding="5dp">
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/thermometer"
+                            android:layout_toRightOf="@+id/thermometer"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:id="@+id/thermometer"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/thermometer" />
-
-                            <LinearLayout
+                            <TextView
+                                style="@style/MainTextStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_toEndOf="@+id/thermometer"
-                                android:layout_toRightOf="@+id/thermometer"
-                                android:orientation="vertical">
+                                android:alpha="0.7"
+                                android:text="@string/feels_like"
+                                android:textSize="14sp" />
 
-                                <TextView
-                                    style="@style/MainTextStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:alpha="0.7"
-                                    android:text="@string/feels_like"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/feels_like"
-                                    style="@style/MainTextStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"
-                                    tools:text="8 C" />
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:padding="5dp">
-
-                            <ImageView
-                                android:id="@+id/visibility_icon"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/weather_fog" />
-
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/feels_like"
+                                style="@style/MainTextStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_toEndOf="@+id/visibility_icon"
-                                android:layout_toRightOf="@+id/visibility_icon"
-                                android:orientation="vertical">
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="8 C" />
+                        </LinearLayout>
 
-                                <TextView
-                                    style="@style/MainTextStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:alpha="0.7"
-                                    android:text="@string/visibility"
-                                    android:textSize="14sp" />
 
-                                <TextView
-                                    android:id="@+id/visibility"
-                                    style="@style/MainTextStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"
-                                    tools:text="48%" />
-                            </LinearLayout>
+                    </RelativeLayout>
 
-                        </RelativeLayout>
 
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_weight="0.5"
+                        android:padding="5dp">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
+                        <ImageView
+                            android:id="@+id/visibility_icon"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/visibility_icon"
+                            android:src="@drawable/weather_fog" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:padding="5dp">
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/visibility_icon"
+                            android:layout_toRightOf="@+id/visibility_icon"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:id="@+id/wind"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/weather_windy" />
-
-                            <LinearLayout
+                            <TextView
+                                style="@style/MainTextStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_toEndOf="@+id/wind"
-                                android:layout_toRightOf="@+id/wind"
-                                android:orientation="vertical">
+                                android:alpha="0.7"
+                                android:text="@string/visibility"
+                                android:textSize="14sp" />
 
-                                <TextView
-                                    style="@style/MainTextStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:alpha="0.7"
-                                    android:text="@string/wind"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/wind_speed"
-                                    style="@style/MainTextStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"
-                                    tools:text="1.2 km/h" />
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:padding="5dp">
-
-                            <ImageView
-                                android:id="@+id/clouds_cover"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/weather_cloudy" />
-
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/visibility"
+                                style="@style/MainTextStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_toEndOf="@+id/clouds_cover"
-                                android:layout_toRightOf="@+id/clouds_cover"
-                                android:orientation="vertical"
-                                android:padding="5dp">
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="48%" />
+                        </LinearLayout>
 
-                                <TextView
-                                    style="@style/MainTextStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:alpha="0.7"
-                                    android:text="@string/clouds_cover"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:id="@+id/clouds"
-                                    style="@style/MainTextStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"
-                                    tools:text="18%" />
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
+                    </RelativeLayout>
 
                 </LinearLayout>
 
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/item_forecast" />
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/wind"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/wild_icon"
+                            android:src="@drawable/weather_windy" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/wind"
+                            android:layout_toRightOf="@+id/wind"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/MainTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.7"
+                                android:text="@string/wind"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/wind_speed"
+                                style="@style/MainTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="1.2 km/h" />
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/clouds_cover"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_centerVertical="true"
+                            android:contentDescription="@string/clouds_icon"
+                            android:src="@drawable/weather_cloudy" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/clouds_cover"
+                            android:layout_toRightOf="@+id/clouds_cover"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                style="@style/MainTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.7"
+                                android:text="@string/clouds_cover"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/clouds"
+                                style="@style/MainTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="18%" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
-        </ScrollView>
 
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_forecast" />
+        </LinearLayout>
+
+    </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/progress"
@@ -362,10 +366,10 @@
             android:id="@+id/progress_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="5dp"
             android:textColor="@color/blue_grey_600"
             android:textSize="12sp"
-            android:gravity="center"
             tools:text="Loading" />
     </LinearLayout>
 </RelativeLayout>

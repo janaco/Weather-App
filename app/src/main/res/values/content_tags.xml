@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="search_btn">Search button</string>
+    <string name="location_btn">Location button</string>
+    <string name="condition_icon">Condition icon</string>
+    <string name="thermometer_icon">Thermometer icon</string>
+    <string name="visibility_icon">Visibility icon</string>
+    <string name="wild_icon">Wind icon</string>
+    <string name="clouds_icon">Clouds icon</string>
+</resources>

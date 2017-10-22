@@ -16,8 +16,6 @@ public class ForecastDay {
     private String date;
     @SerializedName("day")
     private Day day;
-    @SerializedName("astro")
-    private Astro astro;
     @SerializedName("hour")
     private ForecastHour[] hours;
 
@@ -33,10 +31,6 @@ public class ForecastDay {
 
     public Day getDay() {
         return day;
-    }
-
-    public Astro getAstro() {
-        return astro;
     }
 
     public ForecastHour[] getHours() {

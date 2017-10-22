@@ -47,6 +47,7 @@ public class ForecastsAdapter extends RecyclerView.Adapter<ForecastsAdapter.View
 
         holder.setConditionIcon(day.getCondition().getIconUrl());
         holder.setMinTemperature((int) day.getMintempCelciun(), (int) day.getMaxtempCelciun());
+        holder.setWindSpeed((int) day.getMaxwindKilometers());
 
     }
 
@@ -63,12 +64,12 @@ public class ForecastsAdapter extends RecyclerView.Adapter<ForecastsAdapter.View
         TextView textDate;
         @BindView(R.id.temp)
         TextView temperatureText;
-        @BindView(R.id.chance_of_rain)
-        TextView chanceOfRainText;
+        @BindView(R.id.wind)
+        TextView windSpeedText;
         @BindView(R.id.icon)
         ImageView conditionIcon;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -86,8 +87,8 @@ public class ForecastsAdapter extends RecyclerView.Adapter<ForecastsAdapter.View
             temperatureText.setText(String.format("%d\u00B0/%d\u00B0", min, max));
         }
 
-        void setChanceOfRain(int percentage) {
-           chanceOfRainText.setText(String.format("%d%", percentage));
+        void setWindSpeed(int speed) {
+           windSpeedText.setText(String.format("%d%s", speed, windSpeedText.getContext().getString(R.string.km_per_hour)));
         }
 
         void setConditionIcon(String url){

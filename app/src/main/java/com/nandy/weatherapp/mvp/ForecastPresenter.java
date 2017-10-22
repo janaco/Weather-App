@@ -11,7 +11,6 @@ import com.nandy.weatherapp.eventbus.SearchResultEvent;
 import com.nandy.weatherapp.model.Condition;
 import com.nandy.weatherapp.model.CurrentWeather;
 import com.nandy.weatherapp.model.Day;
-import com.nandy.weatherapp.model.Forecast;
 import com.nandy.weatherapp.model.ForecastDay;
 import com.nandy.weatherapp.model.Weather;
 import com.nandy.weatherapp.eventbus.ActivityResultEvent;
@@ -58,6 +57,75 @@ public class ForecastPresenter implements ForecastContract.Presenter {
         locationModel.requestLocationUpdate();
     }
 
+    @Override
+    public void destroy() {
+
+        if (forecastSubscription != null && !forecastSubscription.isDisposed()) {
+            forecastSubscription.dispose();
+        }
+    }
+
+    @Override
+    public void requestCurrentForecast() {
+        view.showProgress();
+        view.setProgressText(R.string.fetching_location);
+        locationModel.requestLocationUpdate();
+    }
+
+    @Override
+    public void startEventListening() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void stopEventListening() {
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchResultEvent(SearchResultEvent event) {
+        forecastModel.getForecast(event.getQwery())
+                .subscribe(getWeatherObserver());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLocationEvent(CurrentLocationEvent event) {
+        if (event.isSuccess()) {
+            if (event.getLocation() != null) {
+
+                forecastModel.getForecast(event.getLocation())
+                        .subscribe(getWeatherObserver());
+            } else {
+                view.showError(R.string.failed_to_determine_location);
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onActivityResultEvent(ActivityResultEvent event) {
+        if (event.getRequestCode() == LocationModel.REQUEST_CHECK_SETTINGS) {
+            locationModel.onActivityResult(event.getResultCode());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkStateChanged(NetworkConnectionEvent event) {
+        if (event.isNetworkEnabled()) {
+            requestCurrentForecast();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPermissionResultEvent(PermissionResultEvent event) {
+
+        if (event.getRequestCode() == LocationModel.REQUEST_LOCATION_PERMISSIONS && event.getGrantResults() != null) {
+            int[] grantResults = event.getGrantResults();
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                requestCurrentForecast();
+            }
+        }
+    }
 
     private SingleObserver<Weather> getWeatherObserver() {
         return new SingleObserver<Weather>() {
@@ -65,6 +133,7 @@ public class ForecastPresenter implements ForecastContract.Presenter {
             public void onSubscribe(Disposable d) {
                 forecastSubscription = d;
                 view.showProgress();
+                view.setProgressText(R.string.loading_forecast);
             }
 
             @Override
@@ -103,78 +172,6 @@ public class ForecastPresenter implements ForecastContract.Presenter {
                 }
             }
         };
-    }
-
-
-    @Override
-    public void destroy() {
-
-        if (forecastSubscription != null && !forecastSubscription.isDisposed()) {
-            forecastSubscription.dispose();
-        }
-    }
-
-
-    @Override
-    public void requestCurrentForecast() {
-        locationModel.requestLocationUpdate();
-        view.showProgress();
-    }
-
-    @Override
-    public void startEventListening() {
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void stopEventListening() {
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSearchResultEvent(SearchResultEvent event) {
-        forecastModel.getForecast(event.getQwery())
-                .subscribe(getWeatherObserver());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLocationEvent(CurrentLocationEvent event) {
-        if (event.isSuccess()) {
-            if (event.getLocation() != null) {
-
-                forecastModel.getForecast(event.getLocation())
-                        .subscribe(getWeatherObserver());
-            } else {
-                view.showError(R.string.failed_to_determine_location);
-            }
-        }
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onActivityResultEvent(ActivityResultEvent event) {
-        if (event.getRequestCode() == LocationModel.REQUEST_CHECK_SETTINGS) {
-            locationModel.onActivityResult(event.getResultCode());
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNetworkStateChanged(NetworkConnectionEvent event) {
-        if (event.isNetworkEmabled()) {
-            requestCurrentForecast();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onPermissionResultEvent(PermissionResultEvent event) {
-
-        if (event.getRequestCode() == LocationModel.REQUEST_LOCATION_PERMISSIONS && event.getGrantResults() != null) {
-            int[] grantResults = event.getGrantResults();
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                requestCurrentForecast();
-            }
-        }
     }
 
 }

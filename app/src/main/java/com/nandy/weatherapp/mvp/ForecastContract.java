@@ -1,7 +1,5 @@
 package com.nandy.weatherapp.mvp;
 
-import android.content.BroadcastReceiver;
-import android.content.IntentFilter;
 import android.support.annotation.StringRes;
 
 import com.nandy.weatherapp.adapter.ForecastsAdapter;

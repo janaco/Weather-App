@@ -94,6 +94,7 @@ public class SearchFragment extends Fragment implements TextView.OnEditorActionL
 
     private void setupAutocomplete() {
         WeatherService service = new WeatherService();
+
         RxTextView.textChangeEvents(searchInput)
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .map(textViewTextChangeEvent -> textViewTextChangeEvent.text().toString())

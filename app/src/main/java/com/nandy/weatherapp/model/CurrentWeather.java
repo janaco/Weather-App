@@ -8,12 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class CurrentWeather {
 
-    @SerializedName("last_updated_epoch")
-    private long lastUpdatedTime;
     @SerializedName("temp_c")
     private float temperatureCelsius;
-    @SerializedName("is_day")
-    private int day;
     @SerializedName("condition")
     private Condition condition;
     @SerializedName("wind_kph")
@@ -25,17 +21,11 @@ public class CurrentWeather {
     @SerializedName("vis_km")
     private float visKm;
 
-    public long getLastUpdatedTime() {
-        return lastUpdatedTime;
-    }
 
     public float getTemperatureCelsius() {
         return temperatureCelsius;
     }
 
-    public int getDay() {
-        return day;
-    }
 
     public Condition getCondition() {
         return condition;

@@ -46,60 +46,6 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
         }
     }
 
-    private void getLocation() {
-
-
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            EventBus.getDefault().post(new PermissionRequestEvent(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSIONS));
-            return;
-        }
-        Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        EventBus.getDefault().post(new CurrentLocationEvent(lastKnownLocation));
-
-
-    }
-
-
-    private synchronized void buildGoogleApiClient(Activity activity) {
-        googleApiClient = new GoogleApiClient.Builder(activity)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API).build();
-
-        googleApiClient.connect();
-
-    }
-
-    public void requestLocationUpdate() {
-
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationServices.SettingsApi
-                .checkLocationSettings(googleApiClient, new LocationSettingsRequest.Builder().addLocationRequest(locationRequest).build())
-                .setResultCallback(this);
-    }
-
-
-    private boolean checkPlayServices(Context context) {
-
-
-        return GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS;
-    }
-
-    public void onActivityResult(int resultCode) {
-
-        switch (resultCode) {
-            case Activity.RESULT_OK:
-                requestLocationUpdate();
-                break;
-        }
-    }
-
-
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         Log.i("LOCATION_", "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
@@ -130,6 +76,53 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
                 EventBus.getDefault().post(new CurrentLocationEvent(status));
                 break;
         }
+    }
+
+    public void requestLocationUpdate() {
+
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationServices.SettingsApi
+                .checkLocationSettings(googleApiClient, new LocationSettingsRequest.Builder().addLocationRequest(locationRequest).build())
+                .setResultCallback(this);
+    }
+
+    public void onActivityResult(int resultCode) {
+
+        switch (resultCode) {
+            case Activity.RESULT_OK:
+                requestLocationUpdate();
+                break;
+        }
+    }
+
+    private void getLocation() {
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            EventBus.getDefault().post(new PermissionRequestEvent(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSIONS));
+            return;
+        }
+        Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        EventBus.getDefault().post(new CurrentLocationEvent(lastKnownLocation));
+    }
+
+    private synchronized void buildGoogleApiClient(Activity activity) {
+        googleApiClient = new GoogleApiClient.Builder(activity)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build();
+
+        googleApiClient.connect();
+    }
+
+
+    private boolean checkPlayServices(Context context) {
+
+        return GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS;
     }
 
 }
