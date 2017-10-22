@@ -30,7 +30,7 @@ public class ForecastContract {
 
         void setFeelsLikeTemperature(float temperature);
 
-        void setChanceOfRain(int chanceOfRain);
+        void setVisibility(int chanceOfRain);
 
         void setWindSpeed(float windSpeed);
 

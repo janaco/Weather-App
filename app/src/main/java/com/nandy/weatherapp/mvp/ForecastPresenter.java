@@ -168,6 +168,7 @@ public class ForecastPresenter implements ForecastContract.Presenter {
         view.setFeelsLikeTemperature(weather.getFeelsLikeCelsius());
         view.setCurrentTemperature((int) weather.getTemperatureCelsius());
         view.setWindSpeed(weather.getWindSpeedInKilomiters());
+        view.setVisibility((int) weather.getVisKm());
 
     }
 }

@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -199,19 +199,19 @@
                             android:padding="5dp">
 
                             <ImageView
-                                android:id="@+id/rain"
+                                android:id="@+id/visibility_icon"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:layout_centerVertical="true"
-                                android:src="@drawable/weather_rainy" />
+                                android:src="@drawable/weather_fog" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginStart="10dp"
-                                android:layout_toEndOf="@+id/rain"
-                                android:layout_toRightOf="@+id/rain"
+                                android:layout_toEndOf="@+id/visibility_icon"
+                                android:layout_toRightOf="@+id/visibility_icon"
                                 android:orientation="vertical">
 
                                 <TextView
@@ -219,11 +219,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:alpha="0.7"
-                                    android:text="@string/change_of_rain"
+                                    android:text="@string/visibility"
                                     android:textSize="14sp" />
 
                                 <TextView
-                                    android:id="@+id/chance_of_rain"
+                                    android:id="@+id/visibility"
                                     style="@style/MainTextStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

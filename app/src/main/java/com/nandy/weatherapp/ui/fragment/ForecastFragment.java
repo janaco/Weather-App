@@ -53,8 +53,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     TextView minTemperatureText;
     @BindView(R.id.feels_like)
     TextView feelsLikeText;
-    @BindView(R.id.chance_of_rain)
-    TextView changeOfRainText;
+    @BindView(R.id.visibility)
+    TextView visibilityText;
     @BindView(R.id.wind_speed)
     TextView windSpeedText;
     @BindView(R.id.sunset_time)
@@ -170,9 +170,8 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     }
 
     @Override
-    public void setChanceOfRain(int chanceOfRain) {
-//        currentTemperatureText.setText(String.format("%d%", chanceOfRain));
-        changeOfRainText.setText(chanceOfRain + "%");
+    public void setVisibility(int visibility) {
+        currentTemperatureText.setText(String.format("%d %s", visibility, getString(R.string.km)));
     }
 
     @Override
