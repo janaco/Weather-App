@@ -1,9 +1,13 @@
 package com.nandy.weatherapp.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nandy.weatherapp.adapter.ForecastsAdapter;
@@ -62,6 +67,11 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     View contentLayout;
     @BindView(R.id.progress_text)
     TextView progressText;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.toolbar)
+    View toolbarLayout;
+
 
     private ForecastContract.Presenter presenter;
 
@@ -107,7 +117,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     @OnClick(R.id.search)
     void onSearchClick() {
 
-       FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
 
         transaction
@@ -118,7 +128,7 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
 
     @OnClick(R.id.gps)
     void onGpsClick() {
-
+        presenter.requestCurrentForecast();
     }
 
     @Override
@@ -204,4 +214,18 @@ public class ForecastFragment extends Fragment implements ForecastContract.View 
     public void setProgressText(int resId) {
         progressText.setText(resId);
     }
+
+    @Override
+    public void showError(String message) {
+        contentLayout.setVisibility(View.GONE);
+        progressLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        progressText.setText(message);
+    }
+
+    @Override
+    public void showError(int resId) {
+        showError(getString(resId));
+    }
+
 }

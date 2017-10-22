@@ -7,4 +7,9 @@
     <string name="wind">Wind</string>
     <string name="km_per_hour">km/hour</string>
     <string name="search">Search</string>
+    <string name="failed_to_determine_location">Failed to determine location. \nPlease, use manual search.</string>
+    <string name="failed_to_connect">Failed to connect.\nPlease, check your network connection.</string>
+    <string name="enable">Enable</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

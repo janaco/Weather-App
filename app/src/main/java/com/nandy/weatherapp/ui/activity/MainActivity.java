@@ -1,17 +1,23 @@
 package com.nandy.weatherapp.ui.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
+import com.nandy.weatherapp.eventbus.NetworkConnectionEvent;
 import com.nandy.weatherapp.mvp.ForecastPresenter;
 import com.nandy.weatherapp.mvp.model.ActivityResultEvent;
 import com.nandy.weatherapp.mvp.model.ForecastModel;
 import com.nandy.weatherapp.mvp.model.LocationModel;
 import com.nandy.weatherapp.ui.fragment.ForecastFragment;
+import com.nandy.weatherapp.util.ConnectionUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -65,6 +71,24 @@ public class MainActivity extends AppCompatActivity {
             } catch (IntentSender.SendIntentException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkConnectionEvent(NetworkConnectionEvent event){
+        if (!event.isNetworkEmabled()){
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if (ConnectionUtils.isNetworkEnabled(context)) {
+                        EventBus.getDefault().post(new NetworkConnectionEvent(true));
+                        context.unregisterReceiver(this);
+                    }
+                }
+            }, filter);
         }
     }
 

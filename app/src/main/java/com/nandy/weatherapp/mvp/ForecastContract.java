@@ -1,5 +1,7 @@
 package com.nandy.weatherapp.mvp;
 
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.support.annotation.StringRes;
 
 import com.nandy.weatherapp.adapter.ForecastsAdapter;
@@ -10,7 +12,7 @@ import com.nandy.weatherapp.adapter.ForecastsAdapter;
 
 public class ForecastContract {
 
-    public interface View{
+    public interface View {
 
         void setPresenter(Presenter presenter);
 
@@ -43,9 +45,13 @@ public class ForecastContract {
         void showContent();
 
         void setProgressText(@StringRes int resId);
+
+        void showError(String message);
+
+        void showError(@StringRes int resId);
     }
 
-    public interface Presenter{
+    public interface Presenter {
 
         void start();
 
@@ -54,6 +60,8 @@ public class ForecastContract {
         void startEventListening();
 
         void stopEventListening();
+
+        void requestCurrentForecast();
 
     }
 }

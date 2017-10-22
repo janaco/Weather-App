@@ -86,7 +86,7 @@ public class LocationModel implements GoogleApiClient.ConnectionCallbacks,
     public void onActivityResult(int resultCode) {
         switch (resultCode) {
             case Activity.RESULT_OK:
-                getLocation();
+                requestLocationUpdate();
                 break;
         }
     }

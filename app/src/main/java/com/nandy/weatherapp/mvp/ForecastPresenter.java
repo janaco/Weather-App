@@ -1,9 +1,14 @@
 package com.nandy.weatherapp.mvp;
 
-import android.util.Log;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 
+import com.nandy.weatherapp.R;
 import com.nandy.weatherapp.adapter.ForecastsAdapter;
 import com.nandy.weatherapp.eventbus.CurrentLocationEvent;
+import com.nandy.weatherapp.eventbus.NetworkConnectionEvent;
 import com.nandy.weatherapp.eventbus.SearchResultEvent;
 import com.nandy.weatherapp.model.Condition;
 import com.nandy.weatherapp.model.CurrentWeather;
@@ -11,10 +16,14 @@ import com.nandy.weatherapp.model.Weather;
 import com.nandy.weatherapp.mvp.model.ActivityResultEvent;
 import com.nandy.weatherapp.mvp.model.ForecastModel;
 import com.nandy.weatherapp.mvp.model.LocationModel;
+import com.nandy.weatherapp.util.ConnectionUtils;
 
+import org.apache.http.conn.ConnectTimeoutException;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.net.UnknownHostException;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -67,11 +76,18 @@ public class ForecastPresenter implements ForecastContract.Presenter {
 
             @Override
             public void onError(Throwable e) {
-
                 e.printStackTrace();
+
+                if (e instanceof UnknownHostException || e instanceof ConnectTimeoutException) {
+                    view.showError(R.string.failed_to_connect);
+                    EventBus.getDefault().post(new NetworkConnectionEvent(false));
+                } else {
+                    view.showError(e.getMessage());
+                }
             }
         };
     }
+
 
     @Override
     public void destroy() {
@@ -81,6 +97,12 @@ public class ForecastPresenter implements ForecastContract.Presenter {
         }
     }
 
+
+    @Override
+    public void requestCurrentForecast() {
+        locationModel.requestLocationUpdate();
+        view.showProgress();
+    }
 
     @Override
     public void startEventListening() {
@@ -101,8 +123,13 @@ public class ForecastPresenter implements ForecastContract.Presenter {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLocationEvent(CurrentLocationEvent event) {
         if (event.isSuccess()) {
-            forecastModel.getForecast(event.getLocation())
-                    .subscribe(getWeatherObserver());
+            if (event.getLocation() != null) {
+
+                forecastModel.getForecast(event.getLocation())
+                        .subscribe(getWeatherObserver());
+            } else {
+                view.showError(R.string.failed_to_determine_location);
+            }
         }
 
     }
@@ -111,6 +138,13 @@ public class ForecastPresenter implements ForecastContract.Presenter {
     public void onActivityResultEvent(ActivityResultEvent event) {
         if (event.getRequestCode() == LocationModel.REQUEST_CHECK_SETTINGS) {
             locationModel.onActivityResult(event.getResultCode());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkStateChanged(NetworkConnectionEvent event){
+        if (event.isNetworkEmabled()){
+            requestCurrentForecast();
         }
     }
 
